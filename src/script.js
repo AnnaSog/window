@@ -17852,8 +17852,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
 /* harmony import */ var _modules_changeModalState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/changeModalState */ "./src/js/modules/changeModalState.js");
 /* harmony import */ var _modules_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/timer */ "./src/js/modules/timer.js");
-/* harmony import */ var _modules_images__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/images */ "./src/js/modules/images.js");
-
 
 
 
@@ -17864,7 +17862,7 @@ window.addEventListener('DOMContentLoaded', function () {
   "use strict";
 
   var modalState = {};
-  var deadline = '2021-11-18 00:00';
+  var deadline = '2021-05-11';
   Object(_modules_changeModalState__WEBPACK_IMPORTED_MODULE_4__["default"])(modalState);
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_slider', '.glazing_block', '.glazing_content', 'active'); //ТЗ 5
@@ -17875,7 +17873,6 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["default"])(modalState); //ТЗ 3
 
   Object(_modules_timer__WEBPACK_IMPORTED_MODULE_5__["default"])('.container1', deadline);
-  Object(_modules_images__WEBPACK_IMPORTED_MODULE_6__["default"])(); //ТЗ 9
 });
 
 /***/ }),
@@ -17921,7 +17918,7 @@ var changeModalState = function changeModalState(state) {
               i === 0 ? state[prop] = 'Холодное' : state[prop] = 'Теплое';
               elem.forEach(function (box, j) {
                 //перебираем каждый сheckbox
-                box.checked = false;
+                box.checked = false; //
 
                 if (i == j) {
                   box.checked = true;
@@ -18102,59 +18099,6 @@ var forms = function forms(state) {
 
 /***/ }),
 
-/***/ "./src/js/modules/images.js":
-/*!**********************************!*\
-  !*** ./src/js/modules/images.js ***!
-  \**********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-var images = function images() {
-  var imgPopup = document.createElement('div'),
-      //создание нового мод окна, подложка всех картнок
-  workSection = document.querySelector('.works'),
-      //получение доступа к родителю всех картинкам
-  bigImage = document.createElement('img'); //создание тега изображения, сама картинка
-
-  imgPopup.classList.add('popupImg');
-  workSection.appendChild(imgPopup); //помещаем новый блок в родителя
-
-  imgPopup.style.justifyContent = 'center'; //выравнивает по горизонтали
-
-  imgPopup.style.alignItems = 'center';
-  imgPopup.style.display = 'none';
-  imgPopup.appendChild(bigImage); //помещаем в новый  div изображение 
-
-  workSection.addEventListener('click', function (e) {
-    e.preventDefault(); //отменяем стандартное поведение(не открывалась ссылка на отд стр при клике на img)
-
-    var target = e.target;
-
-    if (target && target.classList.contains('preview')) {
-      imgPopup.style.display = 'flex';
-      var path = target.parentNode.getAttribute('href'); //обр к родителя и получаем его атрибут
-
-      bigImage.setAttribute('src', path); //у тега img создается атрибут src и получает атрибут родителя
-
-      document.body.style.overflow = 'hidden'; //отмена скроллинга при откр мод окна
-
-      bigImage.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain;'; //растягивается изображение при увеление или уменьшения экрана
-    } //при клике на подлокжку изображение исчежает
-
-
-    if (target && target.matches('div.popupImg')) {
-      //при клике будет найдена подложка, т.е.div.popup
-      imgPopup.style.display = 'none';
-    }
-  });
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (images);
-
-/***/ }),
-
 /***/ "./src/js/modules/modals.js":
 /*!**********************************!*\
   !*** ./src/js/modules/modals.js ***!
@@ -18174,8 +18118,7 @@ var modals = function modals() {
     var trigger = document.querySelectorAll(triggerSelector),
         modal = document.querySelector(modalSelector),
         close = document.querySelector(closeSelector),
-        windows = document.querySelectorAll('[data-modal]'),
-        scroll = calcScroll();
+        windows = document.querySelectorAll('[data-modal]');
     trigger.forEach(function (item) {
       item.addEventListener('click', function (e) {
         if (e.target) {
@@ -18190,8 +18133,6 @@ var modals = function modals() {
         document.body.style.overflow = 'hidden'; //отмена скроллинга при откр мод окна
         // document.body.classList.add('modal-open');
         // если к проекту подключены css проекты, такие как animate.min и bootstrap.css, то можно поработать со стилями
-
-        document.body.style.marginRight = "".concat(scroll, "px"); //добавиться отступ 
       });
     });
     close.addEventListener('click', function () {
@@ -18201,8 +18142,6 @@ var modals = function modals() {
 
       modal.style.display = 'none';
       document.body.style.overflow = ''; // document.body.classList.remove('modal-open');
-
-      document.body.style.marginRight = "0px"; //при закр мод окна исчезнет отступ
     });
     modal.addEventListener('click', function (e) {
       if (e.target === modal && closeClickOverlay) {
@@ -18213,8 +18152,6 @@ var modals = function modals() {
 
         modal.style.display = 'none';
         document.body.style.overflow = ''; // document.body.classList.remove('modal-open');
-
-        document.body.style.marginRight = "0px"; //при закр мод окна исчезнет отступ
       }
     });
   }
@@ -18224,24 +18161,6 @@ var modals = function modals() {
       document.querySelector(selector).style.display = 'block';
       document.body.style.overflow = 'hidden';
     }, time);
-  } //функция, ктр будет подсчитывать расстояние скролла в px
-
-
-  function calcScroll() {
-    var div = document.createElement('div'); //будет производиь расчеты
-
-    div.style.width = '50px';
-    div.style.height = '50px';
-    div.style.overflowY = 'scroll';
-    div.style.visibility = 'hidden'; //скроет div
-
-    document.body.appendChild(div); //помещаем на стр
-
-    var scrollWidth = div.offsetWidth - div.clientWidth; //полная ширина скролла -  контент скролла без самого скролла = сам скролл
-
-    div.remove(); //как вычислили удаляем div
-
-    return scrollWidth; //возвращаем полученное значение 
   }
 
   bindModals('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
@@ -18325,7 +18244,6 @@ var tabs = function tabs(headerSelector, tabSelector, contentSelector, activeCla
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var timer = function timer(id, deadline) {
-  //вычесляет разницу между дейдлайном и текущем временем
   function getTimeRemainig(endtime) {
     var t = Date.parse(endtime) - Date.parse(new Date()),
         days = Math.floor(t / (1000 * 60 * 60 * 24)),

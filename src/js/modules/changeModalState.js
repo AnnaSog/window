@@ -15,7 +15,7 @@ const changeModalState = (state) =>{
     function bindActionToElems (event, elem, prop){
         elem.forEach((item, i) =>{
             item.addEventListener(event, ()=>{
-                switch(item.nodeName){                                                              //nodeName -название строки каждого эл, если оно повдаете с сase
+                switch(item.nodeName){    //nodeName -название строки каждого эл, если оно повдаете с сase
                     case 'SPAN':
                      state[prop] = i;
                      break;
@@ -24,7 +24,7 @@ const changeModalState = (state) =>{
                         if(item.getAttribute('type') === 'checkbox') {
                             i === 0 ? state[prop] = 'Холодное' : state[prop] = 'Теплое';
                             elem.forEach ((box, j) => { //перебираем каждый сheckbox
-                                box.checked = false; //
+                                box.checked = false; 
                                 if(i == j) {
                                     box.checked = true;
                                 }
